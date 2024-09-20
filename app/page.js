@@ -1,17 +1,37 @@
-// We import components from other files like this
-import MyCard from "./components/MyCard";
+'use client';
+import Link from 'next/link';
+import Image from 'next/image';
+import styles from './home.module.css'; // Ensure this CSS module exists
+import { useState, useRef } from 'react';
 
-// In a `page.js` file, we usually call the page function `Home`
-export default function Home() {
+export default function Page() {
+    const [isPlaying, setIsPlaying] = useState(false);
+    const audioRef = useRef(null);
+
+    const togglePlay = () => {
+        if (isPlaying) {
+            audioRef.current.pause();
+        } else {
+            audioRef.current.play();
+        }
+        setIsPlaying(!isPlaying);
+    };
+  
   return (
-    <div>
-      <p> Hello World!</p>
-      <MyCard
-        // Example of passing in props (properties) to the card
-        title="My React Card"
-        text="This is some text that is inside of the card"
-        buttonText="Click me!"
-      ></MyCard>
+    <div className={styles.container}>
+      <Image
+        src="/newFile.jpg" // Ensure the image is located in the public directory
+        alt="New File"
+        width={300} // Adjust width as needed
+        height={300} // Adjust height as needed
+        className={styles.image}
+      />
+      <Link href="/calendar" className={styles.link}>Go to Calendar
+      </Link>
+      <button onClick={togglePlay}>
+                {isPlaying ? 'Pause' : 'Play'} Music
+        </button>
+           <audio ref={audioRef} src="/audio.mp3" />
     </div>
   );
 }
